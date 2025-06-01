@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>VTU SGPA Calculator - 6th Sem (2022 Scheme)</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(to right, #667eea, #764ba2);
+      color: #333;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      transition: background 0.3s ease, color 0.3s ease;
+    }
+
+    body.dark {
+      background: linear-gradient(to right, #1f2937, #4b5563);
+      color: #f3f4f6;
+    }
+
+    .container {
+      background: white;
+      padding: 2rem;
+      border-radius: 24px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+      width: 100%;
+      max-width: 500px;
+      animation: fadeIn 1s ease-in-out;
+      transition: background 0.3s ease, color 0.3s ease;
+    }
+
+    body.dark .container {
+      background: #1e293b;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: scale(0.9);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    h1 {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: #4f46e5;
+      text-align: center;
+      margin-bottom: 1.5rem;
+    }
+
+    .toggle-container {
+      text-align: right;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 0.5rem;
+      font-weight: 600;
+      color: inherit;
+      user-select: none;
+    }
+
+    /* Toggle switch styling */
+    .switch {
+      position: relative;
+      display: inline-block;
+      width: 50px;
+      height: 26px;
+    }
+
+    .switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #ccc;
+      transition: 0.4s;
+      border-radius: 26px;
+    }
+
+    .slider:before {
+      position: absolute;
+      content: '';
+      height: 22px;
+      width: 22px;
+      left: 2px;
+      bottom: 2px;
+      background-color: white;
+      transition: 0.4s;
+      border-radius: 50%;
+    }
+
+    input:checked + .slider {
+      background-color: #4f46e5;
+    }
+
+    input:checked + .slider:before {
+      transform: translateX(24px);
+    }
+
+    .subject {
+      margin-bottom: 1.25rem;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 600;
+    }
+
+    input[type='number'] {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      border: 2px solid #e2e8f0;
+      border-radius: 14px;
+      font-size: 1rem;
+      transition: border-color 0.3s ease;
+    }
+
+    input[type='number']:focus {
+      border-color: #4f46e5;
+      outline: none;
+    }
+
+    button[type='submit'] {
+      width: 100%;
+      padding: 0.9rem;
+      background: linear-gradient(135deg, #4f46e5, #5b21b6);
+      color: white;
+      font-weight: 600;
+      font-size: 1rem;
+      border: none;
+      border-radius: 14px;
+      cursor: pointer;
+      transition: background 0.3s ease, transform 0.2s;
+    }
+
+    button[type='submit']:hover {
+      background: linear-gradient(135deg, #4338ca, #4c1d95);
+      transform: translateY(-2px);
+    }
+
+    #result {
+      margin-top: 1.75rem;
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: #10b981;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="toggle-container">
+      <span>Dark Mode Toggle</span>
+      <label class="switch">
+        <input type="checkbox" id="themeToggle" />
+        <span class="slider round"></span>
+      </label>
+    </div>
+    <h1>VTU SGPA Calculator<br />6th Sem (2022 Scheme)</h1>
+
+    <form id="sgpaForm">
+      <div class="subject">
+        <label>Full Stack Development (BCS601) - Credits: 4</label>
+        <input type="number" name="BCS601" min="0" max="100" required />
+      </div>
+      <div class="subject">
+        <label>Machine Learning (BCS602) - Credits: 4</label>
+        <input type="number" name="BCS602" min="0" max="100" required />
+      </div>
+      <div class="subject">
+        <label>Cloud Computing (BIS613D) - Credits: 3</label>
+        <input type="number" name="BCS613x" min="0" max="100" required />
+      </div>
+      <div class="subject">
+        <label>Renewable Energy Power Plants (BME654B) - Credits: 3</label>
+        <input type="number" name="BCS654x" min="0" max="100" required />
+      </div>
+      <div class="subject">
+        <label>Project Phase I (BIS685) - Credits: 2</label>
+        <input type="number" name="BCS685" min="0" max="100" required />
+      </div>
+      <div class="subject">
+        <label>ML Lab (BCSL606) - Credits: 1</label>
+        <input type="number" name="BCSL606" min="0" max="100" required />
+      </div>
+      <div class="subject">
+        <label>DevOps Lab (BCL657D) - Credits: 1</label>
+        <input type="number" name="BCS657x" min="0" max="100" required />
+      </div>
+
+      <button type="submit">Calculate SGPA</button>
+    </form>
+
+    <div id="result"></div>
+  </div>
+
+  <script>
+    const form = document.getElementById('sgpaForm');
+    const resultDiv = document.getElementById('result');
+    const themeToggle = document.getElementById('themeToggle');
+
+    const getGradePoint = (mark) => {
+      if (mark >= 90) return 10;
+      if (mark >= 80) return 9;
+      if (mark >= 70) return 8;
+      if (mark >= 60) return 7;
+      if (mark >= 45) return 6;
+      if (mark >= 40) return 4;
+      return 0;
+    };
+
+    const credits = {
+      BCS601: 4,
+      BCS602: 4,
+      BCS613x: 3,
+      BCS654x: 3,
+      BCS685: 2,
+      BCSL606: 1,
+      BCS657x: 1,
+    };
+
+    function calculateSGPA() {
+      let totalCredits = 0;
+      let totalPoints = 0;
+
+      for (let subject in credits) {
+        const mark = parseInt(form[subject].value) || 0;
+        const gradePoint = getGradePoint(mark);
+        const credit = credits[subject];
+        totalCredits += credit;
+        totalPoints += gradePoint * credit;
+      }
+
+      const sgpa = (totalPoints / totalCredits).toFixed(2);
+      resultDiv.innerText = `Your SGPA is: ${sgpa}`;
+    }
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      calculateSGPA();
+    });
+
+    form.addEventListener('input', calculateSGPA);
+
+    themeToggle.addEventListener('change', () => {
+      document.body.classList.toggle('dark', themeToggle.checked);
+    });
+  </script>
+</body>
+</html>
